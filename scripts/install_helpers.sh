@@ -1,7 +1,7 @@
 # this should only contain functions and assignments, ie source install.sh should not have side effects.
 
 get_tf_whl () {
-  BASE_URL=https://github.com/Nachtzuster/BirdNET-Pi/releases/download/v0.1/
+  BASE_URL=https://github.com/Nachtzuster/birdnetpi/releases/download/v0.1/
 
   ARCH=$(uname -m)
   PY_VERSION=$(python3 -c "import sys; print(f'{sys.version_info[0]}{sys.version_info[1]}')")
@@ -37,15 +37,15 @@ get_tf_whl () {
   esac
   if [ -n "$WHL" ]; then
     {
-      curl -L -o $HOME/BirdNET-Pi/$WHL $BASE_URL$WHL
-      sed "s/tflite_runtime.*/$WHL/" $HOME/BirdNET-Pi/requirements.txt > requirements_custom.txt
+      curl -L -o $HOME/birdnetpi/$WHL $BASE_URL$WHL
+      sed "s/tflite_runtime.*/$WHL/" $HOME/birdnetpi/requirements.txt > requirements_custom.txt
     }
   fi
 }
 
 install_birdnet_mount() {
   TMP_MOUNT=$(systemd-escape -p --suffix=mount "$RECS_DIR/StreamData")
-  cat << EOF > $HOME/BirdNET-Pi/templates/$TMP_MOUNT
+  cat << EOF > $HOME/birdnetpi/templates/$TMP_MOUNT
 [Unit]
 Description=Birdnet tmpfs for transient files
 ConditionPathExists=$RECS_DIR/StreamData
@@ -59,7 +59,7 @@ Options=mode=1777,nosuid,nodev
 [Install]
 WantedBy=multi-user.target
 EOF
-  ln -sf $HOME/BirdNET-Pi/templates/$TMP_MOUNT /usr/lib/systemd/system
+  ln -sf $HOME/birdnetpi/templates/$TMP_MOUNT /usr/lib/systemd/system
 }
 
 install_tmp_mount() {

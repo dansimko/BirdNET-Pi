@@ -2,7 +2,7 @@
 # Uninstall script to remove everything
 #set -x # Uncomment to debug
 trap 'rm -f ${TMPFILE}' EXIT
-my_dir=$HOME/BirdNET-Pi/scripts
+my_dir=$HOME/birdnetpi/scripts
 source /etc/birdnet/birdnet.conf &> /dev/null
 SCRIPTS=($(ls -1 ${my_dir}) ${HOME}/.gotty)
 set -x
@@ -56,5 +56,5 @@ remove_scripts() {
 remove_services
 remove_scripts
 if [ -d /etc/birdnet ];then sudo rm -drf /etc/birdnet;fi
-if [ -f ${HOME}/BirdNET-Pi/birdnet.conf ];then sudo rm -f ${HOME}/BirdNET-Pi/birdnet.conf;fi
+if [ -f ${HOME}/birdnetpi/birdnet.conf ];then sudo rm -f ${HOME}/birdnetpi/birdnet.conf;fi
 echo "Uninstall finished. Remove this directory with 'rm -drfv' to finish."

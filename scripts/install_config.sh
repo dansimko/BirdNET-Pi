@@ -283,7 +283,7 @@ RARE_SPECIES_THRESHOLD=30
 ## These are just for debugging
 LAST_RUN=
 THIS_RUN=
-IDFILE=$HOME/BirdNET-Pi/IdentifiedSoFar.txt
+IDFILE=$HOME/birdnetpi/IdentifiedSoFar.txt
 LogLevel_BirdnetRecordingService="error"
 LogLevel_LiveAudioStreamService="error"
 LogLevel_SpectrogramViewerService="error"
@@ -300,5 +300,5 @@ sudo ln -sf $birdnet_conf /etc/birdnet/birdnet.conf
 grep -ve '^#' -e '^$' /etc/birdnet/birdnet.conf > $my_dir/firstrun.ini
 
 source /etc/birdnet/birdnet.conf
-echo 'A $comname ($sciname)  was just detected with a confidence of $confidence ($reason)' | sudo -u $BIRDNET_USER tee "$HOME/BirdNET-Pi/body.txt"
-chmod g+w "$HOME/BirdNET-Pi/body.txt"
+echo 'A $comname ($sciname)  was just detected with a confidence of $confidence ($reason)' | sudo -u $BIRDNET_USER tee "$HOME/birdnetpi/body.txt"
+chmod g+w "$HOME/birdnetpi/body.txt"

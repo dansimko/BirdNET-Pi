@@ -12,9 +12,9 @@ $home = get_home();
 
 $result = fetch_species_array($_GET['sort']);
 
-if(!file_exists($home."/BirdNET-Pi/scripts/disk_check_exclude.txt") || strpos(file_get_contents($home."/BirdNET-Pi/scripts/disk_check_exclude.txt"),"##start") === false) {
-  file_put_contents($home."/BirdNET-Pi/scripts/disk_check_exclude.txt", "");
-  file_put_contents($home."/BirdNET-Pi/scripts/disk_check_exclude.txt", "##start\n##end\n");
+if(!file_exists($home."/birdnetpi/scripts/disk_check_exclude.txt") || strpos(file_get_contents($home."/birdnetpi/scripts/disk_check_exclude.txt"),"##start") === false) {
+  file_put_contents($home."/birdnetpi/scripts/disk_check_exclude.txt", "");
+  file_put_contents($home."/birdnetpi/scripts/disk_check_exclude.txt", "##start\n##end\n");
 }
 
 if (get_included_files()[0] === __FILE__) {
@@ -36,16 +36,16 @@ if (get_included_files()[0] === __FILE__) {
     <input type="hidden" name="sort" value="<?php if(isset($_GET['sort'])){echo $_GET['sort'];}?>">
       <input type="hidden" name="view" value="Species Stats">
       <button <?php if(!isset($_GET['sort']) || $_GET['sort'] == "alphabetical"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="alphabetical">
-         <img src="images/sort_abc.svg" title="Sort by alphabetical" alt="Sort by alphabetical">
+         <img src="static/images/sort_abc.svg" title="Sort by alphabetical" alt="Sort by alphabetical">
       </button>
       <button <?php if(isset($_GET['sort']) && $_GET['sort'] == "occurrences"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="occurrences">
-         <img src="images/sort_occ.svg" title="Sort by occurrences" alt="Sort by occurrences">
+         <img src="static/images/sort_occ.svg" title="Sort by occurrences" alt="Sort by occurrences">
       </button>
       <button <?php if(isset($_GET['sort']) && $_GET['sort'] == "confidence"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="confidence">
-         <img src="images/sort_conf.svg" title="Sort by confidence" alt="Sort by confidence">
+         <img src="static/images/sort_conf.svg" title="Sort by confidence" alt="Sort by confidence">
       </button>
       <button <?php if(isset($_GET['sort']) && $_GET['sort'] == "date"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="date">
-         <img src="images/sort_date.svg" title="Sort by date" alt="Sort by date">
+         <img src="static/images/sort_date.svg" title="Sort by date" alt="Sort by date">
       </button>
    </form>
 </div>
@@ -151,9 +151,9 @@ while($results=$result3->fetchArray(SQLITE3_ASSOC)){
   $url_title = $info_url['TITLE'];
   echo str_pad("<h3>$species</h3>
     <table><tr>
-  <td class=\"relative\"><a target=\"_blank\" href=\"index.php?filename=".$results['File_Name']."\"><img title=\"Open in new tab\" class=\"copyimage\" width=25 src=\"images/copy.png\"></a><i>$sciname</i>
-  <a href=\"$url\" target=\"_blank\"><img style=\"width: unset !important; display: inline; height: 1em; cursor: pointer;\" title=\"$url_title\" src=\"images/info.png\" width=\"20\"></a>
-  <a href=\"https://wikipedia.org/wiki/$sciname\" target=\"_blank\"><img style=\"width: unset !important; display: inline; height: 1em; cursor: pointer;\" title=\"Wikipedia\" src=\"images/wiki.png\" width=\"20\"></a><br>
+  <td class=\"relative\"><a target=\"_blank\" href=\"index.php?filename=".$results['File_Name']."\"><img title=\"Open in new tab\" class=\"copyimage\" width=25 src=\"static/images/copy.png\"></a><i>$sciname</i>
+  <a href=\"$url\" target=\"_blank\"><img style=\"width: unset !important; display: inline; height: 1em; cursor: pointer;\" title=\"$url_title\" src=\"static/images/info.png\" width=\"20\"></a>
+  <a href=\"https://wikipedia.org/wiki/$sciname\" target=\"_blank\"><img style=\"width: unset !important; display: inline; height: 1em; cursor: pointer;\" title=\"Wikipedia\" src=\"static/images/wiki.png\" width=\"20\"></a><br>
   Occurrences: $count<br>
   Max Confidence: $maxconf<br>
   Best Recording: $date $time<br><br>
@@ -204,7 +204,7 @@ array_push($excludelines, $results['Date']."/".$comname."/".$results['File_Name'
 array_push($excludelines, $results['Date']."/".$comname."/".$results['File_Name'].".png");
 ?>
       <tr>
-      <td class="relative"><a target="_blank" href="index.php?filename=<?php echo $results['File_Name']; ?>"><img title="Open in new tab" class="copyimage" width=25 src="images/copy.png"></a>
+      <td class="relative"><a target="_blank" href="index.php?filename=<?php echo $results['File_Name']; ?>"><img title="Open in new tab" class="copyimage" width=25 src="static/images/copy.png"></a>
         <button type="submit" name="species" value="<?php echo $results['Com_Name'];?>"><?php echo $results['Com_Name'];?></button><br><b>Occurrences:</b> <?php echo $results['Count'];?><br>
       <b>Max Confidence:</b> <?php echo $percent = round((float)round($results['MaxConfidence'],2) * 100 ) . '%';?><br>
       <b>Best Recording:</b> <?php echo $results['Date']." ".$results['Time'];?><br><video onplay='setLiveStreamVolume(0)' onended='setLiveStreamVolume(1)' onpause='setLiveStreamVolume(1)' controls poster="<?php echo $filename.".png";?>" preload="none" title="<?php echo $filename;?>"><source src="<?php echo $filename;?>" type="audio/mp3"></video></td>
@@ -212,8 +212,8 @@ array_push($excludelines, $results['Date']."/".$comname."/".$results['File_Name'
 <?php
 }
 
-$file = file_get_contents($home."/BirdNET-Pi/scripts/disk_check_exclude.txt");
-file_put_contents($home."/BirdNET-Pi/scripts/disk_check_exclude.txt", "##start"."\n".implode("\n",$excludelines)."\n".substr($file, strpos($file, "##end")));
+$file = file_get_contents($home."/birdnetpi/scripts/disk_check_exclude.txt");
+file_put_contents($home."/birdnetpi/scripts/disk_check_exclude.txt", "##start"."\n".implode("\n",$excludelines)."\n".substr($file, strpos($file, "##end")));
 ?>
     </table>
   </form>

@@ -18,7 +18,6 @@ I've been building on [mcguirepr89's](https://github.com/mcguirepr89/BirdNET-Pi)
 
 Changes include:
 
- - Backup & Restore
  - Web ui is much more responsive
  - Daily charts now include all species, not just top/bottom 10
  - Bump apprise version, so more notification type are possible
@@ -82,21 +81,11 @@ Currently listening in these countries . . . that I know of . . .
 - Japan
 
 ## Features
-* **24/7 recording and automatic identification** of bird songs, chirps, and peeps using BirdNET machine learning
-* **Automatic extraction and cataloguing** of bird clips from full-length recordings
 * **Tools to visualize your recorded bird data** and analyze trends
 * **Live audio stream and spectrogram**
 * **Automatic disk space management** that periodically purges old audio files
-* [BirdWeather](https://app.birdweather.com) integration -- you can request a BirdWeather ID from BirdNET-Pi's "Tools" > "Settings" page
 * Web interface access to all data and logs provided by [Caddy](https://caddyserver.com)
-* [GoTTY](https://github.com/yudai/gotty) and [GoTTY x86](https://github.com/sorenisanerd/gotty) Web Terminal
-* [Tiny File Manager](https://tinyfilemanager.github.io/)
-* FTP server included
 * SQLite3 Database
-* [Adminer](https://www.adminer.org/) database maintenance
-* [phpSysInfo](https://github.com/phpsysinfo/phpsysinfo)
-* [Apprise Notifications](https://github.com/caronc/apprise) supporting 90+ notification platforms
-* Localization supported
 
 ## Requirements
 * A Raspberry Pi 5, Raspberry 4B, Raspberry Pi 400, Raspberry Pi 3B+, or Raspberry Pi 0W2 (The 3B+ and 0W2 must run on RaspiOS-ARM64-**Lite**)
@@ -138,20 +127,6 @@ Please take a look at the [wiki](https://github.com/mcguirepr89/BirdNET-Pi/wiki)
 ## Updating 
 
 Use the web interface and go to "Tools" > "System Controls" > "Update". If you encounter any issues with that, or suspect that the update did not work for some reason, please save its output and post it in an issue where we can help.
-
-## Backup and Restore
-Use the web interface and go to "Tools" > "System Controls" > "Backup" or "Restore". Backup/Restore is primary meant for migrating your data for one system to another. Since the time required to create or restore a backup depends on the size of the data set and the speed of the storage, this could take quite a while.
-
-Alternatively, the backup script can be used directly. These examples assume the backup medium is mounted on `/mnt`
-
-To backup:
-```commandline
-./scripts/backup_data.sh -a backup -f /mnt/birds/backup-2024-07-09.tar
-```
-To restore:
-```commandline
-./scripts/backup_data.sh -a restore -f /mnt/birds/backup-2024-07-09.tar
-```
 
 ## x86_64 support*
 ***x86_64 is not supported.** Not officially anyway. It is mainly there for developers or otherwise more Linux savvy people.

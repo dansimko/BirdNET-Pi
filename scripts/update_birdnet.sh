@@ -12,7 +12,7 @@ else
   USER=$(awk -F: '/1000/ {print $1}' /etc/passwd)
   HOME=$(awk -F: '/1000/ {print $6}' /etc/passwd)
 fi
-my_dir=$HOME/BirdNET-Pi/scripts
+my_dir=$HOME/birdnetpi/scripts
 
 # Defaults
 remote="origin"
@@ -23,7 +23,7 @@ while getopts ":r:b:a" o; do
   case "${o}" in
     r)
       remote=${OPTARG}
-      git -C $HOME/BirdNET-Pi remote show $remote > /dev/null 2>&1
+      git -C $HOME/birdnetpi remote show $remote > /dev/null 2>&1
       ret_val=$?
 
       if [ $ret_val -ne 0 ]; then
@@ -55,8 +55,8 @@ can_auto_update () {
     echo "Auto update is not enabled"
     exit 0
   fi
-  sudo_with_user git -C $HOME/BirdNET-Pi fetch $remote $branch
-  behind_count=$(sudo_with_user git -C $HOME/BirdNET-Pi rev-list --count HEAD..@{u})
+  sudo_with_user git -C $HOME/birdnetpi fetch $remote $branch
+  behind_count=$(sudo_with_user git -C $HOME/birdnetpi rev-list --count HEAD..@{u})
   if [ "${behind_count}" -eq 0 ]; then
     echo "No updates"
     exit 0
@@ -66,19 +66,19 @@ can_auto_update () {
 [ -n "${auto_update}" ] && can_auto_update
 
 # Get current HEAD hash
-commit_hash=$(sudo_with_user git -C $HOME/BirdNET-Pi rev-parse HEAD)
+commit_hash=$(sudo_with_user git -C $HOME/birdnetpi rev-parse HEAD)
 
 # Reset current HEAD to remove any local changes
-sudo_with_user git -C $HOME/BirdNET-Pi reset --hard
+sudo_with_user git -C $HOME/birdnetpi reset --hard
 
 # Fetches latest changes
-sudo_with_user git -C $HOME/BirdNET-Pi fetch $remote $branch
+sudo_with_user git -C $HOME/birdnetpi fetch $remote $branch
 
 # Switches git to specified branch
-sudo_with_user git -C $HOME/BirdNET-Pi switch -C $branch --track $remote/$branch
+sudo_with_user git -C $HOME/birdnetpi switch -C $branch --track $remote/$branch
 
 # Prints out changes
-sudo_with_user git --no-pager -C $HOME/BirdNET-Pi diff --stat $commit_hash HEAD
+sudo_with_user git --no-pager -C $HOME/birdnetpi diff --stat $commit_hash HEAD
 
 $my_dir/pre_update.sh
 

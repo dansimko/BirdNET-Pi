@@ -4,7 +4,7 @@ set -x # Debugging
 exec > >(tee -i installation-$(date +%F).txt) 2>&1 # Make log
 set -e # exit installation if anything fails
 
-my_dir=$HOME/BirdNET-Pi
+my_dir=$HOME/birdnetpi
 export my_dir=$my_dir
 
 cd $my_dir/scripts || exit 1
@@ -25,7 +25,7 @@ sudo -E HOME=$HOME USER=$USER ./install_services.sh || exit 1
 source /etc/birdnet/birdnet.conf
 
 install_birdnet() {
-  cd ~/BirdNET-Pi || exit 1
+  cd ~/birdnetpi || exit 1
   echo "Establishing a python virtual environment"
   python3 -m venv birdnet
   source ./birdnet/bin/activate

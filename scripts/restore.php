@@ -33,7 +33,7 @@ $pipe="/tmp/bird_pipe";
 $log="$home/BirdSongs/restore.log";
 
 if (!$chunks || $chunk == 0) {
-    exec("sudo -u $user ps xf | grep -v grep | grep 'BirdNET-Pi/scripts/backup_data.sh -a restore -f -' | awk '{ print $1 }'", $ProcessIDs);
+    exec("ps xf | grep -v grep | grep 'birdnetpi/scripts/backup_data.sh -a restore -f -' | awk '{ print $1 }'", $ProcessIDs);
     foreach ($ProcessIDs as $pid) {
         exec("sudo -u $user kill -9 $pid");
     }
@@ -48,7 +48,7 @@ if (!$chunks || $chunk == 0) {
         die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
     }
     $read_chunks = ($chunks > 0) ? $chunks : 1;
-    $pID = shell_exec("nohup $home/BirdNET-Pi/scripts/read_chunks.sh -n $read_chunks -f $pipe | sudo -u $user $home/BirdNET-Pi/scripts/backup_data.sh -a restore -f - > $log 2>&1 & echo $!");
+    $pID = shell_exec("nohup $home/birdnetpi/scripts/read_chunks.sh -n $read_chunks -f $pipe | sudo -u $user $home/birdnetpi/scripts/backup_data.sh -a restore -f - > $log 2>&1 & echo $!");
     $_SESSION['pID'] = $pID;
 }
 

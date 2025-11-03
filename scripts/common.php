@@ -13,13 +13,6 @@ function ensure_db_ok($sql_stmt) {
   }
 }
 
-function set_timezone() {
-  if (!isset($_SESSION['my_timezone'])) {
-    $_SESSION['my_timezone'] = trim(shell_exec('timedatectl show --value --property=Timezone'));
-  }
-  date_default_timezone_set($_SESSION['my_timezone']);
-}
-
 function get_config($force_reload = false) {
   $mtime = stat('/etc/birdnet/birdnet.conf')["mtime"];
   if (isset($_SESSION['my_config_version']) && $_SESSION['my_config_version'] !== $mtime) {
@@ -93,7 +86,7 @@ function debug_log($message) {
 
 function get_com_en_name($sci_name) {
   if (!isset($_labels_flickr)) {
-    $_labels_flickr = file(get_home() . "/BirdNET-Pi/model/labels_flickr.txt");
+    $_labels_flickr = file(get_home() . "/birdnetpi/assets/labels_flickr.txt");
   }
   $engname = null;
   foreach ($_labels_flickr as $label) {
@@ -107,7 +100,7 @@ function get_com_en_name($sci_name) {
 
 function get_sci_name($com_name) {
   if (!isset($_labels)) {
-    $_labels = file(get_home() . "/BirdNET-Pi/model/labels.txt");
+    $_labels = file(get_home() . "/birdnetpi/model/labels.txt");
   }
   $sciname = null;
   foreach ($_labels as $label) {
@@ -327,7 +320,7 @@ class Flickr extends ImageProvider {
   public function __construct() {
     $this->set_db();
 
-    $blacklisted = get_home() . "/BirdNET-Pi/scripts/blacklisted_images.txt";
+    $blacklisted = get_home() . "/birdnetpi/scripts/blacklisted_images.txt";
     if (file_exists($blacklisted)) {
       $blacklisted_file = file($blacklisted);
       if ($blacklisted_file) {
@@ -526,8 +519,8 @@ function get_info_url($sciname){
 function get_color_scheme(){
   $config = get_config();
   if (strtolower($config['COLOR_SCHEME']) === 'dark'){
-    return 'static/dark-style.css';
+    return 'static/dark-static/style.css';
   } else {
-    return 'style.css';
+    return 'static/style.css';
   }
 }

@@ -121,7 +121,7 @@ def summary(file: ParseFileName, detection: Detection):
 
 
 def write_to_file(file: ParseFileName, detection: Detection):
-    with open(os.path.expanduser('~/BirdNET-Pi/BirdDB.txt'), 'a') as rfile:
+    with open(os.path.expanduser('~/birdnetpi/BirdDB.txt'), 'a') as rfile:
         rfile.write(f'{summary(file, detection)}\n')
 
 

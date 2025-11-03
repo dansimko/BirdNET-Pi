@@ -41,11 +41,11 @@ if(isset($_GET['deletefile'])) {
 
 if(isset($_GET['excludefile'])) {
   ensure_authenticated('You must be authenticated to change the protection of files.');
-  if(!file_exists($home."/BirdNET-Pi/scripts/disk_check_exclude.txt")) {
-    file_put_contents($home."/BirdNET-Pi/scripts/disk_check_exclude.txt", "##start\n##end\n");
+  if(!file_exists($home."/birdnetpi/scripts/disk_check_exclude.txt")) {
+    file_put_contents($home."/birdnetpi/scripts/disk_check_exclude.txt", "##start\n##end\n");
   }
   if(isset($_GET['exclude_add'])) {
-    $myfile = fopen($home."/BirdNET-Pi/scripts/disk_check_exclude.txt", "a") or die("Unable to open file!");
+    $myfile = fopen($home."/birdnetpi/scripts/disk_check_exclude.txt", "a") or die("Unable to open file!");
     $txt = $_GET['excludefile'];
     fwrite($myfile, $txt."\n");
     fwrite($myfile, $txt.".png\n");
@@ -53,7 +53,7 @@ if(isset($_GET['excludefile'])) {
     echo "OK";
     die();
   } else {
-    $lines  = file($home."/BirdNET-Pi/scripts/disk_check_exclude.txt");
+    $lines  = file($home."/birdnetpi/scripts/disk_check_exclude.txt");
     $search = $_GET['excludefile'];
 
     $result = '';
@@ -62,7 +62,7 @@ if(isset($_GET['excludefile'])) {
         $result .= $line;
       }
     }
-    file_put_contents($home."/BirdNET-Pi/scripts/disk_check_exclude.txt", $result);
+    file_put_contents($home."/birdnetpi/scripts/disk_check_exclude.txt", $result);
     echo "OK";
     die();
   }
@@ -82,7 +82,7 @@ if(isset($_GET['changefile']) && isset($_GET['newname'])) {
   }
   $oldname = basename(urldecode($_GET['changefile']));
   $newname = urldecode($_GET['newname']);
-  if (!exec("sudo -u ".$user." ".$home."/BirdNET-Pi/scripts/birdnet_changeidentification.sh \"$oldname\" \"$newname\" log_errors 2>&1", $output)) {
+  if (!exec("sudo -u ".$user." ".$home."/birdnetpi/scripts/birdnet_changeidentification.sh \"$oldname\" \"$newname\" log_errors 2>&1", $output)) {
     echo "OK";
   } else {
     echo "Error : " . implode(", ", $output) . "<br>";
@@ -194,11 +194,11 @@ function toggleLock(filename, type, elem) {
   xhttp.onload = function() {
     if(this.responseText == "OK"){
       if(type == "add") {
-        elem.setAttribute("src","images/lock.svg");
+        elem.setAttribute("src","static/images/lock.svg");
         elem.setAttribute("title", "This file is excluded from being purged.");
         elem.setAttribute("onclick", elem.getAttribute("onclick").replace("add","del"));
       } else {
-        elem.setAttribute("src","images/unlock.svg");
+        elem.setAttribute("src","static/images/unlock.svg");
         elem.setAttribute("title", "This file will be deleted when disk space needs to be freed.");
         elem.setAttribute("onclick", elem.getAttribute("onclick").replace("del","add"));
       }
@@ -210,7 +210,7 @@ function toggleLock(filename, type, elem) {
     xhttp.open("GET", "play.php?excludefile="+filename+"&exclude_del=true", true);  
   }
   xhttp.send();
-  elem.setAttribute("src","images/spinner.gif");
+  elem.setAttribute("src","static/images/spinner.gif");
 }
 
 function toggleShiftFreq(filename, shiftAction, elem) {
@@ -218,7 +218,7 @@ function toggleShiftFreq(filename, shiftAction, elem) {
   xhttp.onload = function() {
     if(this.responseText == "OK"){
       if(shiftAction == "shift") {
-        elem.setAttribute("src","images/unshift.svg");
+        elem.setAttribute("src","static/images/unshift.svg");
         elem.setAttribute("title", "This file has been shifted down in frequency.");
         elem.setAttribute("onclick", elem.getAttribute("onclick").replace("shift","unshift"));
 	console.log("shifted freqs of " + filename);
@@ -232,7 +232,7 @@ function toggleShiftFreq(filename, shiftAction, elem) {
           }
         }
       } else {
-        elem.setAttribute("src","images/shift.svg");
+        elem.setAttribute("src","static/images/shift.svg");
         elem.setAttribute("title", "This file is not shifted in frequency.");
         elem.setAttribute("onclick", elem.getAttribute("onclick").replace("unshift","shift"));
         console.log("unshifted freqs of " + filename);
@@ -256,7 +256,7 @@ function toggleShiftFreq(filename, shiftAction, elem) {
     xhttp.open("GET", "play.php?shiftfile="+filename, true);  
   }
   xhttp.send();
-  elem.setAttribute("src","images/spinner.gif");
+  elem.setAttribute("src","static/images/spinner.gif");
 }
 
 function changeDetection(filename,copylink=false) {
@@ -386,16 +386,16 @@ if(!isset($_GET['species']) && !isset($_GET['filename'])){
       <input type="hidden" name="view" value="Recordings">
       <input type="hidden" name="<?php echo $view; ?>" value="<?php echo $_GET['date']; ?>">
       <button <?php if(!isset($_GET['sort']) || $_GET['sort'] == "alphabetical"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="alphabetical">
-         <img src="images/sort_abc.svg" title="Sort by alphabetical" alt="Sort by alphabetical">
+         <img src="static/images/sort_abc.svg" title="Sort by alphabetical" alt="Sort by alphabetical">
       </button>
       <button <?php if(isset($_GET['sort']) && $_GET['sort'] == "occurrences"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="occurrences">
-         <img src="images/sort_occ.svg" title="Sort by occurrences" alt="Sort by occurrences">
+         <img src="static/images/sort_occ.svg" title="Sort by occurrences" alt="Sort by occurrences">
       </button>
       <button <?php if(isset($_GET['sort']) && $_GET['sort'] == "confidence"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="confidence">
-         <img src="images/sort_conf.svg" title="Sort by confidence" alt="Sort by confidence">
+         <img src="static/images/sort_conf.svg" title="Sort by confidence" alt="Sort by confidence">
       </button>
       <button <?php if(isset($_GET['sort']) && $_GET['sort'] == "date"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="date">
-         <img src="images/sort_date.svg" title="Sort by date" alt="Sort by date">
+         <img src="static/images/sort_date.svg" title="Sort by date" alt="Sort by date">
       </button>
    </form>
 </div>
@@ -507,10 +507,10 @@ if(isset($_GET['species'])){ ?>
       <input type="hidden" name="species" value="<?php echo $_GET['species']; ?>">
       <input type="hidden" name="sort" value="<?php echo $_GET['sort']; ?>">
       <button <?php if(!isset($_GET['sort']) || $_GET['sort'] == "" || $_GET['sort'] == "date"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="date">
-         <img width=35px src="images/sort_date.svg" title="Sort by date" alt="Sort by date">
+         <img width=35px src="static/images/sort_date.svg" title="Sort by date" alt="Sort by date">
       </button>
       <button <?php if(isset($_GET['sort']) && $_GET['sort'] == "confidence"){ echo "class='sortbutton active'";} else { echo "class='sortbutton'"; }?> type="submit" name="sort" value="confidence">
-         <img src="images/sort_occ.svg" title="Sort by confidence" alt="Sort by confidence">
+         <img src="static/images/sort_occ.svg" title="Sort by confidence" alt="Sort by confidence">
       </button><br>
       <label style="cursor: pointer; margin-top: 10px; margin-bottom: 10px;font-weight: normal; display: inline-flex; align-items: center; justify-content: center;">
         <input type="checkbox" name="only_excluded" <?= isset($_GET['only_excluded']) ? 'checked' : '' ?> onchange="submit()" style="display:none;">
@@ -522,9 +522,9 @@ if(isset($_GET['species'])){ ?>
 </div>
 <?php
   // add disk_check_exclude.txt lines into an array for grepping
-  $fp = @fopen($home."/BirdNET-Pi/scripts/disk_check_exclude.txt", 'r'); 
+  $fp = @fopen($home."/birdnetpi/scripts/disk_check_exclude.txt", 'r'); 
 if ($fp) {
-  $disk_check_exclude_arr = explode("\n", fread($fp, filesize($home."/BirdNET-Pi/scripts/disk_check_exclude.txt")));
+  $disk_check_exclude_arr = explode("\n", fread($fp, filesize($home."/birdnetpi/scripts/disk_check_exclude.txt")));
 } else {
   $disk_check_exclude_arr = [];
 }
@@ -542,8 +542,8 @@ $url = $info_url['URL'];
 echo "<table>
   <tr><th>$com_name<br><span style=\"font-weight:normal;\">
   <i>$sciname</i></span><br>
-    <a href=\"$url\" target=\"_blank\"><img title=\"$url_title\" src=\"images/info.png\" width=\"20\"></a>
-    <a href=\"https://wikipedia.org/wiki/$sciname\" target=\"_blank\"><img title=\"Wikipedia\" src=\"images/wiki.png\" width=\"20\"></a>
+    <a href=\"$url\" target=\"_blank\"><img title=\"$url_title\" src=\"static/images/info.png\" width=\"20\"></a>
+    <a href=\"https://wikipedia.org/wiki/$sciname\" target=\"_blank\"><img title=\"Wikipedia\" src=\"static/images/wiki.png\" width=\"20\"></a>
   </th></tr>";
   $iter=0;
   while($results=$result2->fetchArray(SQLITE3_ASSOC))
@@ -580,22 +580,22 @@ echo "<table>
     }
 
       if(!in_array($filename_formatted, $disk_check_exclude_arr)) {
-        $imageicon = "images/unlock.svg";
+        $imageicon = "static/images/unlock.svg";
         $title = "This file will be deleted when disk space needs to be freed (>95% usage).";
         $type = "add";
       } else {
-        $imageicon = "images/lock.svg";
+        $imageicon = "static/images/lock.svg";
         $title = "This file is excluded from being purged.";
         $type = "del";
       }
 
       if(file_exists($shifted_path.$filename_formatted)) {
-        $shiftImageIcon = "images/unshift.svg";
+        $shiftImageIcon = "static/images/unshift.svg";
         $shiftTitle = "This file has been shifted down in frequency."; 
         $shiftAction = "unshift";
   $filename = $filename_shifted;
       } else {
-        $shiftImageIcon = "images/shift.svg";
+        $shiftImageIcon = "static/images/shift.svg";
         $shiftTitle = "This file is not shifted in frequency.";
         $shiftAction = "shift";
       }
@@ -603,8 +603,8 @@ echo "<table>
       echo "<tr>
   <td class=\"relative\"> 
 
-<img style='cursor:pointer;right:120px' src='images/delete.svg' onclick='deleteDetection(\"".$filename_formatted."\")' class=\"copyimage\" width=25 title='Delete Detection'> 
-<img style='cursor:pointer;right:85px' src='images/bird.svg' onclick='changeDetection(\"".$filename_formatted."\")' class=\"copyimage\" width=25 title='Change Detection'> 
+<img style='cursor:pointer;right:120px' src='static/images/delete.svg' onclick='deleteDetection(\"".$filename_formatted."\")' class=\"copyimage\" width=25 title='Delete Detection'> 
+<img style='cursor:pointer;right:85px' src='static/images/bird.svg' onclick='changeDetection(\"".$filename_formatted."\")' class=\"copyimage\" width=25 title='Change Detection'> 
 <img style='cursor:pointer;right:45px' onclick='toggleLock(\"".$filename_formatted."\",\"".$type."\", this)' class=\"copyimage\" width=25 title=\"".$title."\" src=\"".$imageicon."\"> 
 <img style='cursor:pointer' onclick='toggleShiftFreq(\"".$filename_formatted."\",\"".$shiftAction."\", this)' class=\"copyimage\" width=25 title=\"".$shiftTitle."\" src=\"".$shiftImageIcon."\"> $date $time<br>$values<br>
 
@@ -612,7 +612,7 @@ echo "<table>
         </td>
         </tr>";
 
-  }if($iter == 0){ echo "<tr><td><b>No recordings were found.</b><br><br><span style='font-size:medium'>They may have been deleted to make space for new recordings. You can prevent this from happening in the future by clicking the <img src='images/unlock.svg' style='width:20px'> icon in the top right of a recording.<br>You can also modify this behavior globally under \"Full Disk Behavior\" <a href='views.php?view=Advanced'>here.</a></span></td></tr>";}echo "</table>";}
+  }if($iter == 0){ echo "<tr><td><b>No recordings were found.</b><br><br><span style='font-size:medium'>They may have been deleted to make space for new recordings. You can prevent this from happening in the future by clicking the <img src='static/images/unlock.svg' style='width:20px'> icon in the top right of a recording.<br>You can also modify this behavior globally under \"Full Disk Behavior\" <a href='views.php?view=Advanced'>here.</a></span></td></tr>";}echo "</table>";}
 
   if ($iter_additional) {
     echo "<div style='text-align:center'>";
@@ -646,8 +646,8 @@ echo "<table>
     echo "<table>
       <tr><th>$name<br>
       <i>$sciname</i><br>
-          <a href=\"$url\" target=\"_blank\"><img title=\"$url_title\" src=\"images/info.png\" width=\"20\"></a>
-          <a href=\"https://wikipedia.org/wiki/$sciname\" target=\"_blank\"><img title=\"Wikipedia\" src=\"images/wiki.png\" width=\"20\"></a>
+          <a href=\"$url\" target=\"_blank\"><img title=\"$url_title\" src=\"static/images/info.png\" width=\"20\"></a>
+          <a href=\"https://wikipedia.org/wiki/$sciname\" target=\"_blank\"><img title=\"Wikipedia\" src=\"static/images/wiki.png\" width=\"20\"></a>
       </th></tr>";
       while($results=$result2->fetchArray(SQLITE3_ASSOC))
       {
@@ -664,30 +664,30 @@ echo "<table>
         $filename_formatted = $date."/".$comname."/".$results['File_Name'];
 
         // add disk_check_exclude.txt lines into an array for grepping
-        $fp = @fopen($home."/BirdNET-Pi/scripts/disk_check_exclude.txt", 'r');
+        $fp = @fopen($home."/birdnetpi/scripts/disk_check_exclude.txt", 'r');
         if ($fp) {
-          $disk_check_exclude_arr = explode("\n", fread($fp, filesize($home."/BirdNET-Pi/scripts/disk_check_exclude.txt")));
+          $disk_check_exclude_arr = explode("\n", fread($fp, filesize($home."/birdnetpi/scripts/disk_check_exclude.txt")));
         } else {
           $disk_check_exclude_arr = [];
         }
 
           if(!in_array($filename_formatted, $disk_check_exclude_arr)) {
-            $imageicon = "images/unlock.svg";
+            $imageicon = "static/images/unlock.svg";
             $title = "This file will be deleted when disk space needs to be freed (>95% usage).";
             $type = "add";
           } else {
-            $imageicon = "images/lock.svg";
+            $imageicon = "static/images/lock.svg";
             $title = "This file is excluded from being purged.";
             $type = "del";
           }
 
       if(file_exists($shifted_path.$filename_formatted)) {
-        $shiftImageIcon = "images/unshift.svg";
+        $shiftImageIcon = "static/images/unshift.svg";
         $shiftTitle = "This file has been shifted down in frequency."; 
         $shiftAction = "unshift";
   $filename = $filename_shifted;
       } else {
-        $shiftImageIcon = "images/shift.svg";
+        $shiftImageIcon = "static/images/shift.svg";
         $shiftTitle = "This file is not shifted in frequency.";
         $shiftAction = "shift";
       }
@@ -695,8 +695,8 @@ echo "<table>
           echo "<tr>
       <td class=\"relative\"> 
 
-<img style='cursor:pointer;right:120px' src='images/delete.svg' onclick='deleteDetection(\"".$filename_formatted."\", true)' class=\"copyimage\" width=25 title='Delete Detection'> 
-<img style='cursor:pointer;right:85px' src='images/bird.svg' onclick='changeDetection(\"".$filename_formatted."\")' class=\"copyimage\" width=25 title='Change Detection'> 
+<img style='cursor:pointer;right:120px' src='static/images/delete.svg' onclick='deleteDetection(\"".$filename_formatted."\", true)' class=\"copyimage\" width=25 title='Delete Detection'> 
+<img style='cursor:pointer;right:85px' src='static/images/bird.svg' onclick='changeDetection(\"".$filename_formatted."\")' class=\"copyimage\" width=25 title='Change Detection'> 
 <img style='cursor:pointer;right:45px' onclick='toggleLock(\"".$filename_formatted."\",\"".$type."\", this)' class=\"copyimage\" width=25 title=\"".$title."\" src=\"".$imageicon."\"> 
 <img style='cursor:pointer' onclick='toggleShiftFreq(\"".$filename_formatted."\",\"".$shiftAction."\", this)' class=\"copyimage\" width=25 title=\"".$shiftTitle."\" src=\"".$shiftImageIcon."\">$date $time<br>$values<br>
 

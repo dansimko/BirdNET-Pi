@@ -10,9 +10,9 @@ from tzlocal import get_localzone
 
 _settings = None
 
-DB_PATH = os.path.expanduser('~/BirdNET-Pi/scripts/birds.db')
+DB_PATH = os.path.expanduser('~/birdnetpi/scripts/birds.db')
 ANALYZING_NOW = os.path.expanduser('~/BirdSongs/StreamData/analyzing_now.txt')
-FONT_DIR = os.path.expanduser('~/BirdNET-Pi/homepage/static')
+FONT_DIR = os.path.expanduser('~/birdnetpi/homepage/static')
 
 
 def get_font():

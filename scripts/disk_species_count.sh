@@ -16,7 +16,7 @@ format_k() {
 }
 
 # Get bird names from the database
-bird_names=$(sqlite3 -readonly "$HOME"/BirdNET-Pi/scripts/birds.db <<EOF
+bird_names=$(sqlite3 -readonly "$HOME"/birdnetpi/scripts/birds.db <<EOF
 .headers off
 .mode list
 SELECT DISTINCT Com_Name FROM detections;

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 source /etc/birdnet/birdnet.conf
-my_dir=$HOME/BirdNET-Pi/scripts
+my_dir=$HOME/birdnetpi/scripts
 set -x
 [ -d /etc/caddy ] || mkdir /etc/caddy
 if [ -f /etc/caddy/Caddyfile ];then
@@ -30,17 +30,10 @@ http:// ${BIRDNETPI_URL} {
   basicauth /stream {
     birdnet ${HASHWORD}
   }
-  basicauth /phpsysinfo* {
-    birdnet ${HASHWORD}
-  }
-  basicauth /terminal* {
-    birdnet ${HASHWORD}
-  }
   reverse_proxy /stream localhost:8000
   php_fastcgi unix//run/php/php-fpm.sock
   reverse_proxy /log* localhost:8080
   reverse_proxy /stats* localhost:8501
-  reverse_proxy /terminal* localhost:8888
 }
 EOF
 else
@@ -58,7 +51,6 @@ http:// ${BIRDNETPI_URL} {
   php_fastcgi unix//run/php/php-fpm.sock
   reverse_proxy /log* localhost:8080
   reverse_proxy /stats* localhost:8501
-  reverse_proxy /terminal* localhost:8888
 }
 EOF
 fi

@@ -8,9 +8,9 @@ import html
 import time as timeim
 
 userDir = os.path.expanduser('~')
-APPRISE_CONFIG = userDir + '/BirdNET-Pi/apprise.txt'
-APPRISE_BODY = userDir + '/BirdNET-Pi/body.txt'
-DB_PATH = userDir + '/BirdNET-Pi/scripts/birds.db'
+APPRISE_CONFIG = userDir + '/birdnetpi/apprise.txt'
+APPRISE_BODY = userDir + '/birdnetpi/body.txt'
+DB_PATH = userDir + '/birdnetpi/scripts/birds.db'
 
 apobj = None
 images = {}

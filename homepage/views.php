@@ -11,13 +11,12 @@ $user = get_user();
 $home = get_home();
 $config = get_config();
 $color_scheme = get_color_scheme();
-set_timezone();
 
 $restore = "cat $home/BirdSongs/restore.log";
 
 if(is_authenticated() && (!isset($_SESSION['behind']) || !isset($_SESSION['behind_time']) || time() > $_SESSION['behind_time'] + 86400)) {
-  shell_exec("sudo -u".$user." git -C ".$home."/BirdNET-Pi fetch > /dev/null 2>/dev/null &");
-  $str = trim(shell_exec("sudo -u".$user." git -C ".$home."/BirdNET-Pi status"));
+  shell_exec("sudo -u".$user." git -C ".$home."/birdnetpi fetch > /dev/null 2>/dev/null &");
+  $str = trim(shell_exec("sudo -u".$user." git -C ".$home."/birdnetpi status"));
   if (preg_match("/behind '.*?' by (\d+) commit(s?)\b/", $str, $matches)) {
     $num_commits_behind = $matches[1];
   }
@@ -34,21 +33,16 @@ if(is_authenticated() && (!isset($_SESSION['behind']) || !isset($_SESSION['behin
 }
 if(isset($_SESSION['behind'])&&intval($_SESSION['behind']) >= 99) {?>
   <style>
+  .updatenumber {
+    width:30px !important;
+  }
+  </style>
+<?php } ?>
+  <style>
   .updatenumber { 
     width:30px !important;
   }
   </style>
-<?php }
-if ($config["LATITUDE"] == "0.000" && $config["LONGITUDE"] == "0.000") {
-  echo "<center style='color:red'><b>WARNING: Your latitude and longitude are not set properly. Please do so now in Tools -> Settings.</center></b>";
-}
-elseif ($config["LATITUDE"] == "0.000") {
-  echo "<center style='color:red'><b>WARNING: Your latitude is not set properly. Please do so now in Tools -> Settings.</center></b>";
-}
-elseif ($config["LONGITUDE"] == "0.000") {
-  echo "<center style='color:red'><b>WARNING: Your longitude is not set properly. Please do so now in Tools -> Settings.</center></b>";
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,8 +63,8 @@ elseif ($config["LONGITUDE"] == "0.000") {
   <button type="submit" name="view" value="Weekly Report" form="views">Weekly Report</button>
   <button type="submit" name="view" value="Recordings" form="views">Recordings</button>
   <button type="submit" name="view" value="View Log" form="views">View Log</button>
-  <button type="submit" name="view" value="Tools" form="views">Tools<?php if(isset($_SESSION['behind']) && intval($_SESSION['behind']) >= 50 && ($config['SILENCE_UPDATE_INDICATOR'] != 1)){ $updatediv = ' <div class="updatenumber">'.$_SESSION["behind"].'</div>'; } else { $updatediv = ""; } echo $updatediv; ?></button>
-  <button type="button" href="javascript:void(0);" class="icon" onclick="myFunction()"><img src="images/menu.png"></button>
+  <button type="submit" name="view" value="Tools" form="views">Tools</button>
+  <button type="button" href="javascript:void(0);" class="icon" onclick="myFunction()"><img src="static/images/menu.png"></button>
 </div>
 </form>
 <script type="text/javascript" src="static/plupload.full.min.js"></script>
@@ -140,15 +134,6 @@ function update_species_list($filename, $species, $add) {
 }
 
 if(isset($_GET['view'])){
-  if($_GET['view'] == "System Info"){echo "<iframe src='phpsysinfo/index.php'></iframe>";}
-  if($_GET['view'] == "System Controls"){
-    ensure_authenticated();
-    include('scripts/system_controls.php');
-  }
-  if($_GET['view'] == "Services"){
-    ensure_authenticated();
-    include('scripts/service_controls.php');
-  }
   if($_GET['view'] == "Spectrogram"){include('spectrogram.php');}
   if($_GET['view'] == "View Log"){echo "<body style=\"scroll:no;overflow-x:hidden;\"><iframe style=\"width:calc( 100% + 1em);\" src=\"log\"></iframe></body>";}
   if($_GET['view'] == "Overview"){include('overview.php');}
@@ -160,16 +145,10 @@ if(isset($_GET['view'])){
   if($_GET['view'] == "Daily Charts"){include('history.php');}
   if($_GET['view'] == "Tools"){
     ensure_authenticated();
-    $url = $_SERVER['SERVER_NAME']."/scripts/adminer.php";
     echo "<div class=\"centered\">
       <form action=\"views.php\" method=\"GET\" id=\"views\">
       <button type=\"submit\" name=\"view\" value=\"Settings\" form=\"views\">Settings</button>
-      <button type=\"submit\" name=\"view\" value=\"System Info\" form=\"views\">System Info</button>
-      <button type=\"submit\" name=\"view\" value=\"System Controls\" form=\"views\">System Controls".$updatediv."</button>
       <button type=\"submit\" name=\"view\" value=\"Services\" form=\"views\">Services</button>
-      <button type=\"submit\" name=\"view\" value=\"File\" form=\"views\">File Manager</button>
-      <button type=\"submit\" name=\"view\" value=\"Adminer\" form=\"views\">Database Maintenance</button>
-      <button type=\"submit\" name=\"view\" value=\"Webterm\" form=\"views\">Web Terminal</button>
       <button type=\"submit\" name=\"view\" value=\"Included\" form=\"views\">Custom Species List</button>
       <button type=\"submit\" name=\"view\" value=\"Excluded\" form=\"views\">Excluded Species List</button>
       <button type=\"submit\" name=\"view\" value=\"Whitelisted\" form=\"views\">Whitelist Species List</button>
@@ -202,16 +181,6 @@ if(isset($_GET['view'])){
     }
     $species_list="whitelist";
     include('./scripts/species_list.php');
-  }
-  if($_GET['view'] == "File"){
-    echo "<iframe src='scripts/filemanager/filemanager.php'></iframe>";
-  }
-  if($_GET['view'] == "Adminer"){
-    echo "<iframe src='scripts/adminer.php'></iframe>";
-  }
-  if($_GET['view'] == "Webterm"){
-    ensure_authenticated('You cannot access the web terminal');
-    echo "<iframe src='terminal'></iframe>";
   }
 } elseif(isset($_GET['submit'])) {
   ensure_authenticated();

@@ -467,7 +467,7 @@ h1 {
         }
     ?>
     <input name="freqshift" type="checkbox" id="freqshift" <?php echo($freqshift_state); ?>  disabled>
-    <img id="livestream_freqshift_spinner" src=images/spinner.gif style="height: 25px; vertical-align: top; display: none">
+    <img id="livestream_freqshift_spinner" src=static/images/spinner.gif style="height: 25px; vertical-align: top; display: none">
   </div>
 </div>
 

@@ -14,23 +14,22 @@ require_once 'scripts/common.php';
 $config = get_config();
 $site_name = get_sitename();
 $color_scheme = get_color_scheme();
-set_timezone();
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <title><?php echo $site_name; ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link id="iconLink" rel="shortcut icon" sizes=85x85 href="images/bird.png" />
+<link id="iconLink" rel="shortcut icon" sizes=85x85 href="static/images/bird.png" />
 <link rel="stylesheet" href="<?php echo $color_scheme . '?v=' . date('n.d.y', filemtime($color_scheme)); ?>">
 <link rel="stylesheet" type="text/css" href="static/dialog-polyfill.css" />
 <body>
 <div class="banner">
   <div class="logo">
 <?php if(isset($_GET['logo'])) {
-echo "<a href=\"https://github.com/Nachtzuster/BirdNET-Pi.git\" target=\"_blank\"><img style=\"width:60;height:60;\" src=\"images/bird.png\"></a>";
+echo "<a href=\"https://github.com/Nachtzuster/birdnetpi.git\" target=\"_blank\"><img style=\"width:60;height:60;\" src=\"static/images/bird.png\"></a>";
 } else {
-echo "<a href=\"https://github.com/Nachtzuster/BirdNET-Pi.git\" target=\"_blank\"><img src=\"images/bird.png\"></a>";
+echo "<a href=\"https://github.com/Nachtzuster/birdnetpi.git\" target=\"_blank\"><img src=\"static/images/bird.png\"></a>";
 }?>
   </div>
 
@@ -42,7 +41,7 @@ if(isset($_GET['stream'])){
       echo "
   <audio controls autoplay><source src=\"/stream\"></audio>
   </div>
-  <h1><a href=\"/\"><img class=\"topimage\" src=\"images/bnp.png\"></a></h1>
+  <h1><a href=\"/\"><img class=\"topimage\" src=\"static/images/bnp.png\"></a></h1>
   </div><div class=\"centered\"><h3>$site_name</h3></div>";
 } else {
     echo "
@@ -50,7 +49,7 @@ if(isset($_GET['stream'])){
     <button type=\"submit\" name=\"stream\" value=\"play\">Live Audio</button>
   </form>
   </div>
-  <h1><a href=\"/\"><img class=\"topimage\" src=\"images/bnp.png\"></a></h1>
+  <h1><a href=\"/\"><img class=\"topimage\" src=\"static/images/bnp.png\"></a></h1>
 </div><div class=\"centered\"><h3>$site_name</h3></div>";
 }
 if(isset($_GET['filename'])) {

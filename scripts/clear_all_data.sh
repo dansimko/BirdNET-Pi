@@ -7,7 +7,7 @@ set -x
 source /etc/birdnet/birdnet.conf
 USER=${BIRDNET_USER}
 HOME=/home/${BIRDNET_USER}
-my_dir=${HOME}/BirdNET-Pi/scripts
+my_dir=${HOME}/birdnetpi/scripts
 echo "Stopping services"
 sudo systemctl stop birdnet_recording.service
 sudo systemctl stop birdnet_analysis.service
